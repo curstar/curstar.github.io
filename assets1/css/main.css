@@ -29,6 +29,12 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;}
 
+  figure {
+    width: 300px; /* 设置元素盒子宽度为300像素 */
+    border: 1px solid gray; /* 添加灰色边框 */
+    margin: 10px; /* 添加外边距 */
+  }
+
 body {
 	line-height: 1;
 }
@@ -126,7 +132,7 @@ input, select, textarea {
 		@media screen and (max-width: 1680px) {
 
 			body, input, select, textarea {
-				font-size: 12pt;
+				font-size: 14pt;
 			}
 
 		}
@@ -2315,9 +2321,29 @@ input, select, textarea {
 
 		.image.fit {
 			display: block;
-			margin: 0 0 2em 0;
-			width: 100%;
-		}
+			margin: 0 auto;
+      width: 100%;
+    }
+     
+    
+     @media (min-aspect-ratio: 1/1) and (min-width:600px) {
+        .image{
+          max-width: 50%;
+        }
+      }
+      
+    @media (max-aspect-ratio: 1/1) and (min-width:600px) {
+        .image {
+          max-width: 10%;
+        }   
+    }
+    .image.fit figcaption {
+      text-align: center; /* 设置文字居中对齐 */
+      font-style: italic; /* 设置文字为斜体 */
+    }
+    
+
+		
 
 			.image.fit img {
 				width: 100%;
