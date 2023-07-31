@@ -29,12 +29,6 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;}
 
-  figure {
-    width: 300px; /* 设置元素盒子宽度为300像素 */
-    border: 1px solid gray; /* 添加灰色边框 */
-    margin: 10px; /* 添加外边距 */
-  }
-
 body {
 	line-height: 1;
 }
@@ -132,7 +126,7 @@ input, select, textarea {
 		@media screen and (max-width: 1680px) {
 
 			body, input, select, textarea {
-				font-size: 14pt;
+				font-size: 12pt;
 			}
 
 		}
@@ -2321,30 +2315,15 @@ input, select, textarea {
 
 		.image.fit {
 			display: block;
-			margin: 0 auto;
-      width: 100%;
-    }
-     
-    
-     @media (min-aspect-ratio: 1/1) and (min-width:600px) {
-        .image{
-          max-width: 50%;
-        }
-      }
+			margin: 0 0 2em 0;
+      max-height: 550px;
+      max-width: 800px;
+      margin: auto;
       
-    @media (max-aspect-ratio: 1/1) and (min-width:600px) {
-        .image {
-          max-width: 10%;
-        }   
     }
-    .image.fit figcaption {
-      text-align: center; /* 设置文字居中对齐 */
-      font-style: italic; /* 设置文字为斜体 */
-    }
-    
 
-		
 
+  
 			.image.fit img {
 				width: 100%;
 			}
@@ -3156,7 +3135,6 @@ input, select, textarea {
 		top: 0;
 		width: 100%;
 		z-index: 10000;
-  
 	}
 
 		#header a {
@@ -3356,17 +3334,8 @@ input, select, textarea {
 		margin: 0 auto;
 		max-width: 100%;
 		opacity: 1;
-		padding: 100%
-		width: 100%
-
-    /* background-color: #212931;
-    background-image: url("../../images/overlay.png"), linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url("../../images/bg.jpg");
-    background-size: auto,								auto,														100% auto;
-    background-position: center,								center,														top center;
-    background-repeat: repeat,								no-repeat,													no-repeat;
-    background-attachment: scroll,								scroll,														scroll;
-    z-index: -1; */
-
+		padding: 4.5em;
+		width: 90em;
 	}
 
 		body.is-menu-visible #wrapper {
@@ -3528,8 +3497,6 @@ input, select, textarea {
 	}
 
 /* Footer */
-
-
 
 	#footer .icons {
 		color: #aaaaaa;
