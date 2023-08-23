@@ -2316,8 +2316,8 @@ input, select, textarea {
 		.image.fit {
 			display: block;
 			margin: 0 0 2em 0;
-      max-height: 600px;
-      max-width: 700px;
+      max-width: min(70%,500px);
+      height: auto;
       margin: auto;
       
     }
