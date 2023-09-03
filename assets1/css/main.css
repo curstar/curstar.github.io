@@ -2313,13 +2313,28 @@ input, select, textarea {
 			top: 0.25em;
 		}
 
-		.image.fit {
-			display: block;
+    .image.fit.medium{
+      display: block;
 			margin: 0 0 2em 0;
-      max-width: min(70%,500px);
+      max-width: 55%;
       height: auto;
       margin: auto;
-      
+
+    }
+
+    .image.fit.long{
+      display: block;
+			margin: 1em 2em 1em 2em;
+      width: 70vw;
+      height: auto;
+      margin: auto;
+    }
+    .image.fit.short{
+      display: block;
+			margin: 1em 2em 1em 2em;
+      width: 30vw;
+      height: auto;
+      margin: auto;
     }
 			.image.fit img {
 				width: 100%;
@@ -2355,6 +2370,29 @@ input, select, textarea {
 					margin: 0 0 1.5em 0;
 				}
 
+        .image.fit.medium{
+          display: block;
+          margin: 0 0 2em 0;
+          max-width: 80%;
+          height: auto;
+          margin: auto;
+    
+        }
+    
+        .image.fit.long{
+          display: block;
+          margin: 1em 2em 1em 2em;
+          width: 90vw;
+          height: auto;
+          margin: auto;
+        }
+        .image.fit.short{
+          display: block;
+          margin: 1em 2em 1em 2em;
+          width: 70vw;
+          height: auto;
+          margin: auto;
+        }
 			}
 
 		.image.main {
