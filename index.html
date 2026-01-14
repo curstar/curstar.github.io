@@ -1,95 +1,871 @@
-<!DOCTYPE HTML>
-<!--
-index 
--->
-<html>
-	<head>
-		<title>curstar.github.io</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
+<!DOCTYPE html>
+<html lang="zh-CN">
 
-		<!-- Wrapper -->
-			<div id="wrapper" class="fade-in">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Star Like Dust</title>
+    <meta name="description" content="curstar's navigation page">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-				<!-- Intro -->
-					<div id="intro">
-            <img src="./images/logo.png" width=65% height=65% style="position:relative; top:-125px; left:-20px;" oncontextmenu="return false;">
-						<p style="line-height: 55px; top:-70px;"> J'ai donc besoin de la lune, ou du bonheur, ou de l'immortalité,de quelque chose qui soit dément peut-être, <br/> mais qui ne soit pas de ce monde.</p>
-            
-            <!-- FORM ALBERT CAMUS CALIGULA -->
-						<ul class="actions">
-							<li><a href="#header" class="button icon solid solo fa-arrow-down scrolly">Continue</a></li>
-						</ul>
-					</div>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #000000;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background-color 0.1s ease;
+        }
 
-				<!-- Header -->
-					<header id="header">
-						<a href="index.html" class="logo">curstar</a>
-					</header>
+        /* Hero Section - Top 1/3 */
+        .hero {
+            position: relative;
+            height: 33.33vh;
+            min-height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            overflow: hidden;
+        }
 
-				<!-- Nav -->
-					<nav id="nav">
-						<ul class="links">
-							<li class="active"><a>Welcome</a></li>
-							<li><a href="article.html">blog</a></li>
-							<li><a href="elements.html">Elements Reference</a></li>
-						</ul>
-						<ul class="icons">
-							<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-							<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-							<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-							<li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
-						</ul>
-					</nav>
+        /* Clean edge at bottom of hero - no gradient needed for hard cut */
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: transparent;
+            pointer-events: none;
+            z-index: 5;
+        }
 
-        <!-- Main -->
-        <div id="main">
+        #particles-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
 
-          <!-- Post -->
-            <section class="post">
-              <header class="major">
-                <span class="date">July 26, 2023</span>
-                <h2>Home Page</h2>
-                <p>作为一个介绍页,简单写写(╹ڡ╹ ).</p>
-              </header>
-              
-              <div class="image main"><img src="images/pic01.jpg" alt="" /></div>
-              <p>
-                其中我并没有用类似hexo的框架，主要是我在html5up!上看到一些更好看的模板，但暂时无力把它转移到hexo中，只能保持现状了。
-                要注意的是，发表在这里的文章只是我哪些不成熟、未经整理甚至荒谬的想法，相关“必读”的书籍或许大多还没拆封。否则我会发布其他公共平台上。若你有想法可以email我。
-              </p>
-              <ul class="actions">
+        .logo-container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            pointer-events: none;
+        }
 
-                <li><a href="index2.html" class="button">more</a></li>
-              </ul>
-              
-            </section>
-           
+        .logo-container img {
+            max-width: 550px;
+            width: 85%;
+            height: auto;
+            filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.15));
+            transition: opacity 0.8s ease;
+        }
 
+        .logo-container img.logo-hidden {
+            opacity: 0;
+            transition: opacity 0.15s ease;
+        }
+
+        /* Zoom lens overlay */
+        .zoom-lens {
+            position: fixed;
+            width: 200px;
+            height: 200px;
+            border: none;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(100, 150, 200, 0.06), inset 0 0 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .zoom-lens.active {
+            display: block;
+        }
+
+        .zoom-lens canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Grid Section - Bottom 2/3 */
+        .grid-section {
+            padding: 1rem 2rem 3rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            aspect-ratio: 16 / 9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .card-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .card-placeholder {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.2rem;
+            font-weight: 400;
+            text-align: center;
+            padding: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                min-height: 280px;
+            }
+
+            .grid-section {
+                padding: 2rem 1rem;
+            }
+
+            .zoom-lens {
+                width: 150px;
+                height: 150px;
+            }
+        }
+
+        /* Noise/Grain overlay for sand-like transition */
+        #noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            mix-blend-mode: overlay;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Noise Overlay for grain effect -->
+    <canvas id="noise-overlay"></canvas>
+
+    <!-- Hero Section with Particles -->
+    <section class="hero" id="hero">
+        <canvas id="particles-canvas"></canvas>
+        <div class="logo-container">
+            <img src="./images/logo_4.png" alt="The Star Like Dust" oncontextmenu="return false;">
         </div>
+    </section>
 
+    <!-- Zoom Lens -->
+    <div class="zoom-lens" id="zoom-lens">
+        <canvas id="zoom-canvas"></canvas>
+    </div>
 
-					
+    <!-- Cards Grid Section -->
+    <section class="grid-section">
+        <div class="cards-grid">
+            <!-- Row 1 -->
+            <!-- 设置链接地址：将 href="#" 改为目标 URL
+设置封面图片：在 <img> 标签的 src 属性填入图片路径，并添加 alt 描述
+隐藏占位符文字：删除 <span class="card-placeholder"> 或将其内容清空-->
+            <div class="card" id="card-1">
+                <a href="#" class="card-link">
+                    <img class="card-image" src="" alt="">
+                    <span class="card-placeholder">Card 1</span>
+                </a>
+            </div>
+            <div class="card" id="card-2">
+                <a href="#" class="card-link">
+                    <img class="card-image" src="" alt="">
+                    <span class="card-placeholder">Card 2</span>
+                </a>
+            </div>
+            <div class="card" id="card-3">
+                <a href="#" class="card-link">
+                    <img class="card-image" src="" alt="">
+                    <span class="card-placeholder">Card 3</span>
+                </a>
+            </div>
 
-				<!-- Copyright -->
-					<div id="copyright">
-						<ul><li>&copy;curstar·syzygy</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li><li>email:1120960785@qq.com</li></ul>
-					</div>
+            <!-- Row 2 -->
+            <div class="card" id="card-4">
+                <a href="#" class="card-link">
+                    <img class="card-image" src="" alt="">
+                    <span class="card-placeholder">Card 4</span>
+                </a>
+            </div>
+            <div class="card" id="card-5">
+                <a href="#" class="card-link">
+                    <img class="card-image" src="" alt="">
+                    <span class="card-placeholder">Card 5</span>
+                </a>
+            </div>
+            <div class="card" id="card-6">
+                <a href="#" class="card-link">
+                    <img class="card-image" src="" alt="">
+                    <span class="card-placeholder">Card 6</span>
+                </a>
+            </div>
 
-			</div>
+            <!-- Row 3 -->
+            <div class="card" id="card-7">
+                <a href="#" class="card-link">
+                    <img class="card-image" src="" alt="">
+                    <span class="card-placeholder">Card 7</span>
+                </a>
+            </div>
+            <div class="card" id="card-8">
+                <a href="#" class="card-link">
+                    <img class="card-image" src="" alt="">
+                    <span class="card-placeholder">Card 8</span>
+                </a>
+            </div>
+            <div class="card" id="card-9">
+                <a href="#" class="card-link">
+                    <img class="card-image" src="" alt="">
+                    <span class="card-placeholder">Card 9</span>
+                </a>
+            </div>
+        </div>
+    </section>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+    <script>
+        // Main Particle Canvas
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        const hero = document.getElementById('hero');
 
-	</body>
+        // Zoom Lens
+        const zoomLens = document.getElementById('zoom-lens');
+        const zoomCanvas = document.getElementById('zoom-canvas');
+        const zoomCtx = zoomCanvas.getContext('2d');
+
+        let particles = [];
+        let mouse = { x: null, y: null, radius: 60 };
+        let isHovering = false;
+
+        const ZOOM_FACTOR = 4;
+        const LENS_SIZE = 200;
+
+        // Resize canvas
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            zoomCanvas.width = LENS_SIZE;
+            zoomCanvas.height = LENS_SIZE;
+            initParticles();
+        }
+
+        // Star colors
+        const starColors = [
+            { r: 255, g: 255, b: 255 },
+            { r: 240, g: 248, b: 255 },
+            { r: 220, g: 235, b: 255 },
+            { r: 200, g: 220, b: 255 },
+            { r: 255, g: 250, b: 240 },
+            { r: 255, g: 240, b: 220 },
+            { r: 255, g: 220, b: 180 },
+            { r: 255, g: 200, b: 200 },
+            { r: 220, g: 200, b: 180 },
+            { r: 200, g: 190, b: 170 },
+        ];
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.baseX = this.x;
+                this.baseY = this.y;
+
+                // Size distribution
+                const sizeRandom = Math.random();
+                if (sizeRandom > 0.97) {
+                    this.size = Math.random() * 2.5 + 2;
+                    this.isBright = true;
+                    this.isGalaxy = Math.random() > 0.3; // 70% of bright stars are galaxies
+                } else if (sizeRandom > 0.85) {
+                    this.size = Math.random() * 1.5 + 1;
+                    this.isBright = false;
+                    this.isGalaxy = Math.random() > 0.6; // 40% are galaxies
+                } else {
+                    this.size = Math.random() * 0.8 + 0.3;
+                    this.isBright = false;
+                    this.isGalaxy = false;
+                }
+
+                const colorIndex = Math.floor(Math.random() * starColors.length);
+                this.color = starColors[colorIndex];
+
+                // Galaxy properties
+                this.galaxyType = Math.floor(Math.random() * 3); // 0: spiral, 1: elliptical, 2: halo
+                this.galaxyRotation = Math.random() * Math.PI * 2;
+                this.galaxyColor = {
+                    r: 180 + Math.random() * 75,
+                    g: 180 + Math.random() * 75,
+                    b: 200 + Math.random() * 55
+                };
+
+                this.alpha = this.isBright ? 0.9 : Math.random() * 0.6 + 0.25;
+                this.alphaSpeed = Math.random() * 0.012 + 0.003;
+                this.alphaDirection = Math.random() > 0.5 ? 1 : -1;
+                this.density = Math.random() * 30 + 1;
+            }
+
+            draw(context, scale = 1, offsetX = 0, offsetY = 0) {
+                const x = (this.x - offsetX) * scale;
+                const y = (this.y - offsetY) * scale;
+                const size = this.size * scale;
+
+                context.beginPath();
+                context.arc(x, y, size, 0, Math.PI * 2);
+                context.fillStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${this.alpha})`;
+                context.fill();
+
+                // Add glow for bright stars
+                if (this.isBright && scale === 1) {
+                    context.beginPath();
+                    context.arc(x, y, size * 2, 0, Math.PI * 2);
+                    const gradient = context.createRadialGradient(x, y, 0, x, y, size * 2);
+                    gradient.addColorStop(0, `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${this.alpha * 0.3})`);
+                    gradient.addColorStop(1, `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, 0)`);
+                    context.fillStyle = gradient;
+                    context.fill();
+                }
+            }
+
+            drawAsGalaxy(context, scale, offsetX, offsetY) {
+                const x = (this.x - offsetX) * scale;
+                const y = (this.y - offsetY) * scale;
+                const baseSize = this.size * scale;
+
+                if (this.isGalaxy && scale > 1) {
+                    // Draw galaxy with halo
+                    const galaxySize = baseSize * 3;
+
+                    // Outer halo glow
+                    const haloGradient = context.createRadialGradient(x, y, 0, x, y, galaxySize * 2);
+                    haloGradient.addColorStop(0, `rgba(${this.galaxyColor.r}, ${this.galaxyColor.g}, ${this.galaxyColor.b}, 0.6)`);
+                    haloGradient.addColorStop(0.3, `rgba(${this.galaxyColor.r}, ${this.galaxyColor.g}, ${this.galaxyColor.b}, 0.3)`);
+                    haloGradient.addColorStop(1, `rgba(${this.galaxyColor.r}, ${this.galaxyColor.g}, ${this.galaxyColor.b}, 0)`);
+
+                    context.beginPath();
+
+                    if (this.galaxyType === 1) {
+                        // Elliptical galaxy
+                        context.save();
+                        context.translate(x, y);
+                        context.rotate(this.galaxyRotation);
+                        context.scale(1, 0.6);
+                        context.arc(0, 0, galaxySize * 1.5, 0, Math.PI * 2);
+                        context.restore();
+                    } else {
+                        // Circular/spiral galaxy
+                        context.arc(x, y, galaxySize * 1.5, 0, Math.PI * 2);
+                    }
+
+                    context.fillStyle = haloGradient;
+                    context.fill();
+
+                    // Bright core
+                    context.beginPath();
+                    context.arc(x, y, baseSize * 1.2, 0, Math.PI * 2);
+                    context.fillStyle = `rgba(255, 255, 250, ${this.alpha})`;
+                    context.fill();
+                } else {
+                    // Draw as regular star but larger in zoom
+                    context.beginPath();
+                    context.arc(x, y, baseSize, 0, Math.PI * 2);
+                    context.fillStyle = `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${this.alpha})`;
+                    context.fill();
+
+                    // Glow
+                    if (baseSize > 2) {
+                        context.beginPath();
+                        context.arc(x, y, baseSize * 1.8, 0, Math.PI * 2);
+                        const gradient = context.createRadialGradient(x, y, 0, x, y, baseSize * 1.8);
+                        gradient.addColorStop(0, `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, ${this.alpha * 0.4})`);
+                        gradient.addColorStop(1, `rgba(${this.color.r}, ${this.color.g}, ${this.color.b}, 0)`);
+                        context.fillStyle = gradient;
+                        context.fill();
+                    }
+                }
+            }
+
+            update() {
+                // Mouse interaction
+                if (mouse.x !== null && mouse.y !== null) {
+                    const dx = mouse.x - this.x;
+                    const dy = mouse.y - this.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < mouse.radius) {
+                        const force = (mouse.radius - distance) / mouse.radius;
+                        const directionX = dx / distance;
+                        const directionY = dy / distance;
+                        this.x -= directionX * force * this.density * 0.4;
+                        this.y -= directionY * force * this.density * 0.4;
+                    }
+                }
+
+                // Return to base position
+                const dxBase = this.baseX - this.x;
+                const dyBase = this.baseY - this.y;
+                this.x += dxBase * 0.03;
+                this.y += dyBase * 0.03;
+
+                // Twinkling effect
+                this.alpha += this.alphaSpeed * this.alphaDirection;
+                if (this.alpha >= 0.95) {
+                    this.alpha = 0.95;
+                    this.alphaDirection = -1;
+                } else if (this.alpha <= 0.15) {
+                    this.alpha = 0.15;
+                    this.alphaDirection = 1;
+                }
+
+                this.draw(ctx);
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            // Even higher density
+            const numberOfParticles = Math.floor((canvas.width * canvas.height) / 400);
+            for (let i = 0; i < numberOfParticles; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function drawZoomView(mouseX, mouseY) {
+            const centerX = LENS_SIZE / 2;
+            const centerY = LENS_SIZE / 2;
+
+            // Calculate the area to zoom
+            const viewRadius = LENS_SIZE / (2 * ZOOM_FACTOR);
+            const offsetX = mouseX - viewRadius;
+            const offsetY = mouseY - viewRadius;
+
+            // Dark background
+            zoomCtx.fillStyle = '#0a0a12';
+            zoomCtx.fillRect(0, 0, LENS_SIZE, LENS_SIZE);
+
+            // Draw particles in zoom view
+            particles.forEach(particle => {
+                // Check if particle is in view area
+                const relX = particle.x - mouseX;
+                const relY = particle.y - mouseY;
+                const distFromCenter = Math.sqrt(relX * relX + relY * relY);
+
+                if (distFromCenter < viewRadius * 1.5) {
+                    // Draw zoomed particle
+                    const zoomX = centerX + relX * ZOOM_FACTOR;
+                    const zoomY = centerY + relY * ZOOM_FACTOR;
+
+                    // Check if in circular lens
+                    const lensDistX = zoomX - centerX;
+                    const lensDistY = zoomY - centerY;
+                    if (Math.sqrt(lensDistX * lensDistX + lensDistY * lensDistY) < LENS_SIZE / 2 - 5) {
+                        particle.drawAsGalaxy(zoomCtx, ZOOM_FACTOR, mouseX - centerX / ZOOM_FACTOR, mouseY - centerY / ZOOM_FACTOR);
+                    }
+                }
+            });
+
+            // Add lens edge gradient
+            const edgeGradient = zoomCtx.createRadialGradient(centerX, centerY, LENS_SIZE / 2 - 20, centerX, centerY, LENS_SIZE / 2);
+            edgeGradient.addColorStop(0, 'rgba(0, 0, 0, 0)');
+            edgeGradient.addColorStop(1, 'rgba(0, 0, 0, 0.8)');
+            zoomCtx.fillStyle = edgeGradient;
+            zoomCtx.fillRect(0, 0, LENS_SIZE, LENS_SIZE);
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => particle.update());
+
+            if (isHovering && mouse.x !== null && mouse.y !== null) {
+                drawZoomView(mouse.x, mouse.y);
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // Event listeners
+        canvas.addEventListener('mousemove', (e) => {
+            // Check if background has turned white (scroll > 33%)
+            const scrollY = window.scrollY;
+            const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollProgress = scrollY / documentHeight;
+
+            // Disable zoom lens after 33% scroll (when background is white)
+            if (scrollProgress >= 0.33) {
+                if (isHovering) {
+                    isHovering = false;
+                    zoomLens.classList.remove('active');
+                }
+                return;
+            }
+
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
+
+            // Position zoom lens
+            zoomLens.style.left = (e.clientX - LENS_SIZE / 2) + 'px';
+            zoomLens.style.top = (e.clientY - LENS_SIZE / 2) + 'px';
+
+            if (!isHovering) {
+                isHovering = true;
+                zoomLens.classList.add('active');
+            }
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+            mouse.x = null;
+            mouse.y = null;
+            isHovering = false;
+            zoomLens.classList.remove('active');
+        });
+
+        window.addEventListener('resize', resizeCanvas);
+
+        // Initialize
+        resizeCanvas();
+        animate();
+
+        // Scroll-based background color transition
+        // Color stops: Black → Deep Navy → Light Ice Blue → White
+        function updateBackgroundColor() {
+            const scrollY = window.scrollY;
+            const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+            // Calculate scroll progress (0 to 1)
+            const scrollProgress = Math.min(Math.max(scrollY / documentHeight, 0), 1);
+
+            // Hide zoom lens when background is white (scroll >= 33%)
+            if (scrollProgress >= 0.33) {
+                isHovering = false;
+                zoomLens.classList.remove('active');
+            }
+
+            // Color stops for the gradient - hard cut to white at 33%
+            const colorStops = [
+                { pos: 0, r: 0, g: 0, b: 0 },           // Black
+                { pos: 0.32, r: 15, g: 23, b: 42 },    // 地平线
+                { pos: 0.33, r: 255, g: 255, b: 255 }, // Hard cut to White
+                { pos: 1, r: 255, g: 255, b: 255 }     // Stay White
+            ];
+
+            // Find the two color stops we're between
+            let startStop = colorStops[0];
+            let endStop = colorStops[1];
+            for (let i = 0; i < colorStops.length - 1; i++) {
+                if (scrollProgress >= colorStops[i].pos && scrollProgress <= colorStops[i + 1].pos) {
+                    startStop = colorStops[i];
+                    endStop = colorStops[i + 1];
+                    break;
+                }
+            }
+
+            // Calculate local progress between the two stops
+            const localProgress = (scrollProgress - startStop.pos) / (endStop.pos - startStop.pos);
+
+            // Interpolate colors
+            const r = Math.round(startStop.r + (endStop.r - startStop.r) * localProgress);
+            const g = Math.round(startStop.g + (endStop.g - startStop.g) * localProgress);
+            const b = Math.round(startStop.b + (endStop.b - startStop.b) * localProgress);
+
+            document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+
+            // Update hero gradient to match current background
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.style.setProperty('--fade-color', `rgb(${r}, ${g}, ${b})`);
+            }
+
+            // Also update card styles based on scroll progress
+            const cards = document.querySelectorAll('.card');
+            const placeholders = document.querySelectorAll('.card-placeholder');
+
+            // Calculate brightness (0-255)
+            const brightness = (r + g + b) / 3;
+
+            if (brightness > 127) {
+                // Light mode styling
+                const lightProgress = (brightness - 127) / 128;
+                cards.forEach(card => {
+                    const bgAlpha = 0.06 * lightProgress;
+                    const borderAlpha = 0.12 * lightProgress;
+                    card.style.background = `rgba(0, 0, 0, ${bgAlpha})`;
+                    card.style.borderColor = `rgba(0, 0, 0, ${borderAlpha})`;
+                    card.style.boxShadow = `0 4px 20px rgba(0, 0, 0, ${0.06 * lightProgress})`;
+                });
+                placeholders.forEach(placeholder => {
+                    const grayValue = Math.round(80 - lightProgress * 40);
+                    placeholder.style.color = `rgb(${grayValue}, ${grayValue}, ${grayValue})`;
+                });
+            } else {
+                // Dark mode styling
+                const darkProgress = 1 - brightness / 127;
+                cards.forEach(card => {
+                    card.style.background = `rgba(255, 255, 255, ${0.08 * darkProgress})`;
+                    card.style.borderColor = `rgba(255, 255, 255, ${0.15 * darkProgress})`;
+                    card.style.boxShadow = 'none';
+                });
+                placeholders.forEach(placeholder => {
+                    placeholder.style.color = `rgba(255, 255, 255, ${0.5 * darkProgress + 0.2})`;
+                });
+            }
+        }
+
+        window.addEventListener('scroll', updateBackgroundColor);
+        updateBackgroundColor(); // Initialize on load
+
+        // Noise/Grain generator for sand-like transition effect
+        const noiseCanvas = document.getElementById('noise-overlay');
+        const noiseCtx = noiseCanvas.getContext('2d');
+        let noiseFrame = 0;
+
+        function resizeNoiseCanvas() {
+            noiseCanvas.width = window.innerWidth;
+            noiseCanvas.height = window.innerHeight;
+        }
+
+        function generateNoise(intensity, baseColor) {
+            const width = noiseCanvas.width;
+            const height = noiseCanvas.height;
+            const imageData = noiseCtx.createImageData(width, height);
+            const data = imageData.data;
+
+            // Grain size - larger = more visible "sand" particles
+            const grainSize = 2;
+
+            for (let y = 0; y < height; y += grainSize) {
+                for (let x = 0; x < width; x += grainSize) {
+                    // Generate noise value
+                    const noise = (Math.random() - 0.5) * 2 * intensity * 255;
+
+                    // Apply to grain block
+                    for (let dy = 0; dy < grainSize && y + dy < height; dy++) {
+                        for (let dx = 0; dx < grainSize && x + dx < width; dx++) {
+                            const idx = ((y + dy) * width + (x + dx)) * 4;
+
+                            // Add color variation for sand-like effect
+                            const colorVariation = Math.random() * 0.2;
+                            data[idx] = Math.min(255, Math.max(0, baseColor.r + noise + colorVariation * 30));     // R
+                            data[idx + 1] = Math.min(255, Math.max(0, baseColor.g + noise + colorVariation * 20)); // G
+                            data[idx + 2] = Math.min(255, Math.max(0, baseColor.b + noise));                       // B
+                            data[idx + 3] = Math.abs(noise) * 1.5; // Alpha based on noise intensity
+                        }
+                    }
+                }
+            }
+
+            noiseCtx.putImageData(imageData, 0, 0);
+        }
+
+        function updateNoiseOverlay() {
+            const scrollY = window.scrollY;
+            const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollProgress = Math.min(Math.max(scrollY / documentHeight, 0), 1);
+
+            // Calculate how "in transition" we are (peak at 0.33 hard cut point)
+            const transitionIntensity = Math.max(0, 1 - Math.abs(scrollProgress - 0.33) * 5);
+
+            // Base grain that's always visible
+            const baseGrain = 0.02;
+            const grainIntensity = baseGrain + transitionIntensity * 0.2;
+
+            // Get current background color for grain tinting
+            const colorStops = [
+                { pos: 0, r: 0, g: 0, b: 0 },
+                { pos: 0.32, r: 15, g: 25, b: 50 },
+                { pos: 0.33, r: 255, g: 255, b: 255 },
+                { pos: 1, r: 255, g: 255, b: 255 }
+            ];
+
+            let baseColor = colorStops[0];
+            for (let i = 0; i < colorStops.length - 1; i++) {
+                if (scrollProgress >= colorStops[i].pos && scrollProgress <= colorStops[i + 1].pos) {
+                    const localProgress = (scrollProgress - colorStops[i].pos) / (colorStops[i + 1].pos - colorStops[i].pos);
+                    baseColor = {
+                        r: colorStops[i].r + (colorStops[i + 1].r - colorStops[i].r) * localProgress,
+                        g: colorStops[i].g + (colorStops[i + 1].g - colorStops[i].g) * localProgress,
+                        b: colorStops[i].b + (colorStops[i + 1].b - colorStops[i].b) * localProgress
+                    };
+                    break;
+                }
+            }
+
+            generateNoise(grainIntensity, baseColor);
+            noiseCanvas.style.opacity = 0.3 + transitionIntensity * 0.4;
+        }
+
+        // Animate noise for subtle movement
+        let lastNoiseUpdate = 0;
+        function animateNoise(timestamp) {
+            // Update noise every 100ms for performance
+            if (timestamp - lastNoiseUpdate > 100) {
+                updateNoiseOverlay();
+                lastNoiseUpdate = timestamp;
+            }
+            requestAnimationFrame(animateNoise);
+        }
+
+        window.addEventListener('resize', resizeNoiseCanvas);
+        resizeNoiseCanvas();
+        requestAnimationFrame(animateNoise);
+
+        // Logo drag-to-hide interaction (works with zoom lens since logo has pointer-events: none)
+        const logoImg = document.querySelector('.logo-container img');
+        const logoContainer = document.querySelector('.logo-container');
+        let isLogoDragging = false;
+        let logoStartX = 0;
+        let logoStartY = 0;
+        let logoDragThreshold = 10;
+        let logoFadeTimeout = null;
+
+        // Check if point is over the logo area
+        function isOverLogo(clientX, clientY) {
+            const logoRect = logoImg.getBoundingClientRect();
+            return clientX >= logoRect.left && clientX <= logoRect.right &&
+                clientY >= logoRect.top && clientY <= logoRect.bottom;
+        }
+
+        // Mouse events on canvas (since logo has pointer-events: none)
+        canvas.addEventListener('mousedown', (e) => {
+            if (isOverLogo(e.clientX, e.clientY)) {
+                isLogoDragging = true;
+                logoStartX = e.clientX;
+                logoStartY = e.clientY;
+            }
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isLogoDragging) return;
+
+            const dx = e.clientX - logoStartX;
+            const dy = e.clientY - logoStartY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance > logoDragThreshold) {
+                logoImg.classList.add('logo-hidden');
+                if (logoFadeTimeout) {
+                    clearTimeout(logoFadeTimeout);
+                    logoFadeTimeout = null;
+                }
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isLogoDragging) {
+                isLogoDragging = false;
+                logoFadeTimeout = setTimeout(() => {
+                    logoImg.classList.remove('logo-hidden');
+                    logoFadeTimeout = null;
+                }, 200);
+            }
+        });
+
+        // Touch events for mobile
+        canvas.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            if (isOverLogo(touch.clientX, touch.clientY)) {
+                isLogoDragging = true;
+                logoStartX = touch.clientX;
+                logoStartY = touch.clientY;
+            }
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (!isLogoDragging) return;
+
+            const touch = e.touches[0];
+            const dx = touch.clientX - logoStartX;
+            const dy = touch.clientY - logoStartY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance > logoDragThreshold) {
+                logoImg.classList.add('logo-hidden');
+                if (logoFadeTimeout) {
+                    clearTimeout(logoFadeTimeout);
+                    logoFadeTimeout = null;
+                }
+            }
+        });
+
+        document.addEventListener('touchend', () => {
+            if (isLogoDragging) {
+                isLogoDragging = false;
+                logoFadeTimeout = setTimeout(() => {
+                    logoImg.classList.remove('logo-hidden');
+                    logoFadeTimeout = null;
+                }, 200);
+            }
+        });
+    </script>
+</body>
+
 </html>
