@@ -9,6 +9,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            corePlugins: {
+                preflight: false,
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Inter:wght@400;900&display=swap"
+        rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -200,6 +210,116 @@
             opacity: 0;
             mix-blend-mode: overlay;
         }
+
+        /* --- Card 22 Styles Start --- */
+        .title-font {
+            font-family: 'ZCOOL KuaiLe', 'Inter', sans-serif;
+        }
+
+        /* 炼药锅动画 */
+        .cauldron-glow {
+            filter: drop-shadow(0 0 15px #ffde59);
+            animation: boil 2s ease-in-out infinite;
+        }
+
+        @keyframes boil {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.02);
+            }
+        }
+
+        /* 元素下落动画 */
+        .float-item {
+            position: absolute;
+            animation: float-down 3s ease-out infinite;
+            opacity: 0;
+        }
+
+        @keyframes float-down {
+            0% {
+                transform: translateY(-200px) scale(1.2) rotate(-20deg);
+                opacity: 0;
+            }
+
+            15% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-130px) scale(0.6) rotate(0deg);
+                opacity: 0;
+            }
+        }
+
+        /* 火焰动画 */
+        .flame {
+            fill: #ff7e67;
+            animation: flicker 0.6s infinite alternate ease-in-out;
+            transform-origin: bottom center;
+        }
+
+        @keyframes flicker {
+            0% {
+                transform: scaleY(0.8) scaleX(0.9);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scaleY(1.2) scaleX(1.1);
+                opacity: 1;
+            }
+        }
+
+        /* 小女孩搅拌动画 */
+        .stirring {
+            animation: stir 2s linear infinite;
+            transform-origin: center bottom;
+        }
+
+        @keyframes stir {
+
+            0%,
+            100% {
+                transform: rotate(-5deg);
+            }
+
+            50% {
+                transform: rotate(5deg);
+            }
+        }
+
+        .sparkle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: sparkle-anim 1.5s linear infinite;
+        }
+
+        @keyframes sparkle-anim {
+
+            0%,
+            100% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* --- Card 22 Styles End --- */
     </style>
 </head>
 
@@ -227,10 +347,108 @@
             <!-- 设置链接地址：将 href="#" 改为目标 URL
 设置封面图片：在 <img> 标签的 src 属性填入图片路径，并添加 alt 描述
 隐藏占位符文字：删除 <span class="card-placeholder"> 或将其内容清空-->
-            <div class="card" id="card-1">
-                <a href="#" class="card-link">
-                    <img class="card-image" src="" alt="">
-                    <span class="card-placeholder">Card 1</span>
+            <div class="card relative overflow-hidden group" id="card-1"
+                style="background: linear-gradient(135deg, #2d1b4e 0%, #161625 100%);">
+                <a href="http://1.15.89.88/card22/" class="card-link block w-full h-full relative">
+                    <!-- 装饰背景 -->
+                    <div class="absolute inset-0 opacity-10 pointer-events-none">
+                        <div class="absolute top-4 left-10 w-2 h-2 bg-white rounded-full sparkle"
+                            style="animation-delay: 0.2s"></div>
+                        <div class="absolute top-20 right-40 w-1 h-1 bg-white rounded-full sparkle"
+                            style="animation-delay: 0.8s"></div>
+                        <div class="absolute bottom-10 left-1/2 w-3 h-3 bg-white rounded-full sparkle"
+                            style="animation-delay: 0.5s"></div>
+                    </div>
+
+                    <div class="flex w-full h-full">
+                        <!-- 左侧：插画区 (Shared Wrapper for scaling) -->
+                        <div class="w-1/2 relative h-full">
+                            <!-- Canvas Scaled Container: Centers the art and scales it down to fit the smaller card -->
+                            <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 scale-75 origin-bottom">
+                                <!-- 锅底火焰 -->
+                                <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10 flex gap-1">
+                                    <svg class="flame" width="20" height="30" viewBox="0 0 20 30"
+                                        style="animation-delay: 0.1s;">
+                                        <path
+                                            d="M10 0C10 0 20 10 20 20C20 25.5228 15.5228 30 10 30C4.47715 30 0 25.5228 0 20C0 10 10 0 10 0Z" />
+                                    </svg>
+                                    <svg class="flame" width="24" height="40" viewBox="0 0 20 30">
+                                        <path
+                                            d="M10 0C10 0 20 10 20 20C20 25.5228 15.5228 30 10 30C4.47715 30 0 25.5228 0 20C0 10 10 0 10 0Z"
+                                            fill="#ff9f43" />
+                                    </svg>
+                                    <svg class="flame" width="20" height="30" viewBox="0 0 20 30"
+                                        style="animation-delay: 0.3s;">
+                                        <path
+                                            d="M10 0C10 0 20 10 20 20C20 25.5228 15.5228 30 10 30C4.47715 30 0 25.5228 0 20C0 10 10 0 10 0Z" />
+                                    </svg>
+                                </div>
+
+                                <!-- 炼药锅 -->
+                                <div class="relative z-20 cauldron-glow">
+                                    <svg width="140" height="100" viewBox="0 0 140 100" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M10 40C10 17.9086 27.9086 0 50 0H90C112.091 0 130 17.9086 130 40V50C130 72.0914 112.091 90 90 90H50C27.9086 90 10 72.0914 10 50V40Z"
+                                            fill="#2c3e50" />
+                                        <rect x="0" y="35" width="140" height="10" rx="5" fill="#1a252f" />
+                                        <circle cx="35" cy="90" r="8" fill="#1a252f" />
+                                        <circle cx="105" cy="90" r="8" fill="#1a252f" />
+                                    </svg>
+                                    <!-- Elements -->
+                                    <div class="float-item text-3xl left-12" style="animation-delay: 0.8s;">🕹️</div>
+                                    <div class="float-item text-3xl left-16" style="animation-delay: 0.2s;">🃏</div>
+                                    <div class="float-item text-2xl left-14" style="animation-delay: 1.5s;">🪙</div>
+                                    <div class="float-item text-2xl left-12" style="animation-delay: 0.3s;">💰</div>
+                                    <div class="float-item text-1xl left-10" style="animation-delay: 1.2s;">✨</div>
+                                </div>
+
+                                <!-- Girl Group -->
+                                <div class="absolute -left-[30%] bottom-0 z-30">
+                                    <svg width="60" height="50" viewBox="0 0 60 50" class="absolute bottom-0 left-5">
+                                        <rect x="5" y="0" width="50" height="8" rx="2" fill="#8B4513" />
+                                        <rect x="5" y="0" width="50" height="4" rx="2" fill="#A0522D" />
+                                        <rect x="8" y="8" width="6" height="42" rx="2" fill="#654321" />
+                                        <rect x="46" y="8" width="6" height="42" rx="2" fill="#654321" />
+                                        <rect x="10" y="30" width="40" height="4" rx="1" fill="#5D4037" />
+                                    </svg>
+                                    <div class="stirring absolute bottom-10 left-3">
+                                        <svg width="140" height="150" viewBox="0 0 140 150" style="overflow: visible;">
+                                            <path d="M30 150 L50 90 L70 150 Z" fill="#ff7979" />
+                                            <circle cx="50" cy="80" r="20" fill="#ffcccc" />
+                                            <path d="M30 80 Q30 50 50 50 Q70 50 70 80 L75 100 L25 100 Z"
+                                                fill="#4b4b4b" />
+                                            <circle cx="75" cy="85" r="6" fill="#ffcccc" />
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                <!-- Stick (Relative to the same container as Girl/Cauldron) -->
+                                <div class="stirring absolute -left-[30%] bottom-0 z-[15]"
+                                    style="margin-left: 12px; margin-bottom: 40px;">
+                                    <svg width="140" height="150" viewBox="0 0 140 150" style="overflow: visible;">
+                                        <rect x="72" y="30" width="8" height="120" rx="4" fill="#8e44ad"
+                                            transform="rotate(10 75 85)" />
+                                    </svg>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- 右侧：标题 -->
+                        <div class="w-1/2 flex flex-col justify-center pr-4 z-10">
+                            <div class="space-y-1 text-center scale-90">
+                                <h2 class="text-yellow-400 text-xs tracking-[0.4em] uppercase font-bold opacity-80">
+                                    BLACK JACK</h2>
+                                <h1 class="text-4xl md:text-5xl text-white title-font drop-shadow-[0_4px_0_#4834d4]">22点
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 装饰背景大字 -->
+                    <div
+                        class="absolute -right-4 -top-8 text-[6rem] font-black text-white/[0.03] select-none pointer-events-none italic overflow-hidden">
+                        LUCK</div>
                 </a>
             </div>
             <div class="card" id="card-2">
