@@ -211,6 +211,42 @@
             mix-blend-mode: overlay;
         }
 
+        /* --- Card 3 Car Animations --- */
+        .car-dynamic {
+            transform-origin: bottom center;
+            animation: vibrate 0.2s ease-in-out infinite alternate;
+        }
+
+        @keyframes vibrate {
+            from {
+                transform: rotate(-6.5deg) translateY(0);
+            }
+
+            to {
+                transform: rotate(-5.5deg) translateY(-2px);
+            }
+        }
+
+        .blink-right {
+            animation: blink 0.6s step-end infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                fill: #fbbf24;
+                filter: drop-shadow(0 0 5px #fbbf24);
+            }
+        }
+
+        .wheel-rotate {
+            transform-origin: 200px 240px;
+            transform: rotate(60deg);
+        }
+
+        .glow-text {
+            text-shadow: 0 0 30px rgba(251, 191, 36, 0.5);
+        }
+
         /* --- Card 22 Styles Start --- */
         .title-font {
             font-family: 'ZCOOL KuaiLe', 'Inter', sans-serif;
@@ -565,11 +601,219 @@
                     }
                 </style>
             </div>
-            <div class="card" id="card-3">
-                <a href="#" class="card-link">
-                    <img class="card-image" src="" alt="">
-                    <span class="card-placeholder">Card 3</span>
-                </a>
+            <div class="card relative overflow-hidden group border-0" id="card-3">
+                <!-- Container for split layout -->
+                <div class="absolute inset-0 flex w-full h-full">
+
+                    <!-- Left Side: Only Right 1 (Yellow) -->
+                    <a href="http://1.15.89.88/Only_right_1/"
+                        class="absolute inset-y-0 left-0 w-[55%] bg-slate-900 group/left overflow-hidden hover:brightness-110 transition-all duration-300"
+                        style="clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%); z-index: 10;">
+                        <!-- Text Overlay: ONLY -->
+                        <div class="absolute top-4 left-6 z-20 pointer-events-none">
+                            <h1
+                                class="text-4xl font-black text-white tracking-tighter glow-text leading-none opacity-80 group-hover/left:opacity-100 transition-opacity">
+                                ONLY
+                            </h1>
+                        </div>
+
+                        <!-- Scaled Container -->
+                        <div
+                            class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 scale-[0.35] origin-center">
+                            <div class="car-dynamic" style="transform: rotate(-6deg);">
+                                <svg viewBox="0 0 400 400" width="400" height="400">
+                                    <!-- 投影 -->
+                                    <ellipse cx="210" cy="355" rx="130" ry="15" fill="rgba(0,0,0,0.6)" />
+                                    <!-- 车辆底部结构 -->
+                                    <rect x="50" y="300" width="300" height="40" rx="10" fill="#92400e" />
+                                    <rect x="60" y="270" width="280" height="50" rx="12" fill="#d97706" />
+                                    <!-- 车身主色 -->
+                                    <path d="M 75,270 L 85,140 Q 85,110 115,110 L 285,110 Q 315,110 315,140 L 325,270 Z"
+                                        fill="#f59e0b" />
+                                    <!-- 挡风玻璃 -->
+                                    <path
+                                        d="M 100,250 L 110,155 Q 110,135 130,135 L 270,135 Q 290,135 290,155 L 300,250 Z"
+                                        fill="#1e293b" />
+                                    <defs>
+                                        <clipPath id="car-window-clip-yellow">
+                                            <path
+                                                d="M 100,250 L 110,155 Q 110,135 130,135 L 270,135 Q 290,135 290,155 L 300,250 Z" />
+                                        </clipPath>
+                                    </defs>
+                                    <!-- 驾驶员 -->
+                                    <g clip-path="url(#car-window-clip-yellow)">
+                                        <g opacity="0.9" transform="rotate(-15 215 250)">
+                                            <circle cx="215" cy="195" r="22" fill="#334155" />
+                                            <path d="M 175,250 Q 175,215 215,215 Q 255,215 255,250 Z" fill="#475569" />
+                                        </g>
+                                    </g>
+                                    <!-- 方向盘 -->
+                                    <g class="wheel-rotate">
+                                        <circle cx="200" cy="240" r="30" fill="none" stroke="#0f172a"
+                                            stroke-width="7" />
+                                        <line x1="200" y1="240" x2="200" y2="210" stroke="#0f172a" stroke-width="7"
+                                            stroke-linecap="round" />
+                                        <line x1="200" y1="240" x2="230" y2="255" stroke="#0f172a" stroke-width="7"
+                                            stroke-linecap="round" />
+                                        <line x1="200" y1="240" x2="170" y2="255" stroke="#0f172a" stroke-width="7"
+                                            stroke-linecap="round" />
+                                    </g>
+                                    <!-- 大灯组 -->
+                                    <rect x="90" y="275" width="45" height="25" rx="8" fill="#fef3c7" opacity="0.9" />
+                                    <rect x="265" y="275" width="45" height="25" rx="8" fill="#451a03"
+                                        class="blink-right" />
+                                    <!-- 顶部行李 -->
+                                    <g transform="translate(140, 75)">
+                                        <rect x="0" y="0" width="120" height="35" rx="4" fill="#78350f" />
+                                        <path d="M 10,17 L 110,17" stroke="#92400e" stroke-width="2" />
+                                        <rect x="45" y="8" width="30" height="20" fill="#b45309" />
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                        <!-- 文字标签 (可选 - 移除旧的) -->
+                        <!-- <div class="absolute bottom-2 left-4 text-slate-500 text-[10px] font-bold tracking-widest opacity-50">PART 1</div> -->
+                    </a>
+
+                    <!-- Right Side: Only Right 2 (Collision Scene - Two Cars) -->
+                    <a href="http://1.15.89.88/Only_right_2/"
+                        class="absolute inset-y-0 right-0 w-[55%] bg-slate-800 group/right overflow-hidden hover:brightness-110 transition-all duration-300"
+                        style="clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%); z-index: 10;">
+                        <!-- Text Overlay: RIGHT -->
+                        <div class="absolute bottom-4 right-6 z-20 pointer-events-none">
+                            <h1
+                                class="text-4xl font-black text-yellow-500 tracking-tighter glow-text leading-none opacity-80 group-hover/right:opacity-100 transition-opacity">
+                                RIGHT
+                            </h1>
+                        </div>
+
+                        <!-- Scaled Container for Collision Scene -->
+                        <div
+                            class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 scale-[0.6] origin-center w-full flex justify-center">
+                            <!-- Collision Flex Container -->
+                            <div class="relative z-10 flex items-center justify-center -space-x-56 w-[800px]">
+
+                                <!-- Car 1: Blue (Mirrored/Swapped to Left) -->
+                                <div class="w-full max-w-xl" style="transform: scaleX(-1);">
+                                    <div class="car-dynamic">
+                                        <svg viewBox="0 0 400 400" class="w-full">
+                                            <!-- 投影 -->
+                                            <ellipse cx="210" cy="355" rx="130" ry="15" fill="rgba(0,0,0,0.6)" />
+                                            <!-- 底部 -->
+                                            <rect x="50" y="300" width="300" height="40" rx="10" fill="#1e3a8a" />
+                                            <rect x="60" y="270" width="280" height="50" rx="12" fill="#2563eb" />
+                                            <!-- 主体 -->
+                                            <path
+                                                d="M 75,270 L 85,140 Q 85,110 115,110 L 285,110 Q 315,110 315,140 L 325,270 Z"
+                                                fill="#3b82f6" />
+                                            <!-- 挡风玻璃 -->
+                                            <path
+                                                d="M 100,250 L 110,155 Q 110,135 130,135 L 270,135 Q 290,135 290,155 L 300,250 Z"
+                                                fill="#1e293b" />
+                                            <defs>
+                                                <clipPath id="car-window-clip-blue">
+                                                    <path
+                                                        d="M 100,250 L 110,155 Q 110,135 130,135 L 270,135 Q 290,135 290,155 L 300,250 Z" />
+                                                </clipPath>
+                                            </defs>
+                                            <!-- 驾驶员 -->
+                                            <g clip-path="url(#car-window-clip-blue)">
+                                                <g opacity="0.9" transform="rotate(-15 215 250)">
+                                                    <circle cx="215" cy="195" r="22" fill="#334155" />
+                                                    <path d="M 175,250 Q 175,215 215,215 Q 255,215 255,250 Z"
+                                                        fill="#475569" />
+                                                </g>
+                                            </g>
+                                            <!-- 方向盘 -->
+                                            <g class="wheel-rotate">
+                                                <circle cx="200" cy="240" r="30" fill="none" stroke="#0f172a"
+                                                    stroke-width="7" />
+                                                <line x1="200" y1="240" x2="200" y2="210" stroke="#0f172a"
+                                                    stroke-width="7" stroke-linecap="round" />
+                                                <line x1="200" y1="240" x2="230" y2="255" stroke="#0f172a"
+                                                    stroke-width="7" stroke-linecap="round" />
+                                                <line x1="200" y1="240" x2="170" y2="255" stroke="#0f172a"
+                                                    stroke-width="7" stroke-linecap="round" />
+                                            </g>
+                                            <!-- 灯光 -->
+                                            <rect x="90" y="275" width="45" height="25" rx="8" fill="#dbeafe"
+                                                opacity="0.9" />
+                                            <rect x="265" y="275" width="45" height="25" rx="8" fill="#451a03"
+                                                class="blink-right" />
+                                            <!-- 顶部 -->
+                                            <g transform="translate(140, 75)">
+                                                <rect x="0" y="0" width="120" height="35" rx="4" fill="#172554" />
+                                                <path d="M 10,17 L 110,17" stroke="#1e3a8a" stroke-width="2" />
+                                                <rect x="45" y="8" width="30" height="20" fill="#1e40af" />
+                                            </g>
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                <!-- Car 2: Yellow (Normal/Right) -->
+                                <div class="w-full max-w-xl car-dynamic" style="transform: rotate(-10deg);">
+                                    <svg viewBox="0 0 400 400" class="w-full">
+                                        <!-- 投影 -->
+                                        <ellipse cx="210" cy="355" rx="130" ry="15" fill="rgba(0,0,0,0.6)" />
+                                        <!-- 底部 -->
+                                        <rect x="50" y="300" width="300" height="40" rx="10" fill="#92400e" />
+                                        <rect x="60" y="270" width="280" height="50" rx="12" fill="#d97706" />
+                                        <!-- 主体 -->
+                                        <path
+                                            d="M 75,270 L 85,140 Q 85,110 115,110 L 285,110 Q 315,110 315,140 L 325,270 Z"
+                                            fill="#f59e0b" />
+                                        <!-- 挡风玻璃 -->
+                                        <path
+                                            d="M 100,250 L 110,155 Q 110,135 130,135 L 270,135 Q 290,135 290,155 L 300,250 Z"
+                                            fill="#1e293b" />
+                                        <defs>
+                                            <clipPath id="car-window-clip-yellow-collision">
+                                                <path
+                                                    d="M 100,250 L 110,155 Q 110,135 130,135 L 270,135 Q 290,135 290,155 L 300,250 Z" />
+                                            </clipPath>
+                                        </defs>
+                                        <!-- 驾驶员 -->
+                                        <g clip-path="url(#car-window-clip-yellow-collision)">
+                                            <g opacity="0.9" transform="rotate(-15 215 250)">
+                                                <circle cx="215" cy="195" r="22" fill="#334155" />
+                                                <path d="M 175,250 Q 175,215 215,215 Q 255,215 255,250 Z"
+                                                    fill="#475569" />
+                                            </g>
+                                        </g>
+                                        <!-- 方向盘 -->
+                                        <g class="wheel-rotate">
+                                            <circle cx="200" cy="240" r="30" fill="none" stroke="#0f172a"
+                                                stroke-width="7" />
+                                            <line x1="200" y1="240" x2="200" y2="210" stroke="#0f172a" stroke-width="7"
+                                                stroke-linecap="round" />
+                                            <line x1="200" y1="240" x2="230" y2="255" stroke="#0f172a" stroke-width="7"
+                                                stroke-linecap="round" />
+                                            <line x1="200" y1="240" x2="170" y2="255" stroke="#0f172a" stroke-width="7"
+                                                stroke-linecap="round" />
+                                        </g>
+                                        <!-- 灯光 -->
+                                        <rect x="90" y="275" width="45" height="25" rx="8" fill="#fef3c7"
+                                            opacity="0.9" />
+                                        <rect x="265" y="275" width="45" height="25" rx="8" fill="#451a03"
+                                            class="blink-right" />
+                                        <!-- 顶部 -->
+                                        <g transform="translate(140, 75)">
+                                            <rect x="0" y="0" width="120" height="35" rx="4" fill="#78350f" />
+                                            <path d="M 10,17 L 110,17" stroke="#92400e" stroke-width="2" />
+                                            <rect x="45" y="8" width="30" height="20" fill="#b45309" />
+                                        </g>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 文字标签 (可选 - 移除旧的) -->
+                        <!-- <div class="absolute bottom-2 right-4 text-slate-500 text-[10px] font-bold tracking-widest opacity-50">PART 2</div> -->
+                    </a>
+
+                    <!-- Divider Line -->
+                    <div class="absolute w-0.5 bg-white/10"
+                        style="height: 120%; top: -10%; left: 55%; transform: skewX(-21deg);"></div>
+                </div>
             </div>
 
             <!-- Row 2 -->
