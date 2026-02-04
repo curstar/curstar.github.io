@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIT QUIZ - 拼图挑战</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;900&family=Inter:wght@400;900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', 'Inter', sans-serif;
+        }
+
+        .puzzle-hover:hover {
+            transform: translateX(8px);
+        }
+
+        .puzzle-hover-reverse:hover {
+            transform: translateX(-8px);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-slate-50 flex items-center justify-center p-8 antialiased text-slate-900">
+
+    <!-- 16:9 主容器 -->
+    <div
+        class="relative w-full max-w-[800px] aspect-video bg-white rounded-[48px] shadow-[0_20px_50px_rgba(0,0,0,0.1)] overflow-hidden border-[16px] border-white flex flex-col items-center justify-center">
+
+        <!-- 背景：细微的几何网格纹理 -->
+        <div class="absolute inset-0 opacity-[0.03] pointer-events-none">
+            <svg width="100%" height="100%">
+                <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-width="1" />
+                </pattern>
+                <rect width="100%" height="100%" fill="url(#grid)" />
+            </svg>
+        </div>
+
+        <!-- 核心场景容器 -->
+        <div class="relative w-full h-full flex items-center justify-center">
+            <svg viewBox="0 0 500 500" class="w-[85%] h-[85%] drop-shadow-xl overflow-visible">
+
+                <!-- 左侧拼图块 (凸起型) -->
+                <g transform="translate(45, 140)">
+                    <!-- 拼图轮廓路径：右侧带有一个几何化的梯形凸起 -->
+                    <path d="M0 0 L150 0 L150 60 L185 60 L185 110 L150 110 L150 170 L0 170 Z" fill="#2563EB"
+                        class="transition-transform duration-500 hover:translate-x-2 cursor-pointer" />
+                    <!-- Low Poly 切面效果 - 亮部 -->
+                    <polygon points="0,0 150,0 130,20 20,20" fill="white" fill-opacity="0.15" />
+                    <polygon points="150,60 185,60 175,70 150,70" fill="white" fill-opacity="0.2" />
+                    <!-- Low Poly 切面效果 - 暗部 -->
+                    <polygon points="0,170 150,170 135,155 15,155" fill="black" fill-opacity="0.1" />
+                    <polygon points="185,110 150,110 150,100 175,100" fill="black" fill-opacity="0.15" />
+                    <polygon points="150,0 150,60 140,55 140,5" fill="black" fill-opacity="0.05" />
+                </g>
+
+                <!-- 右侧拼图块 (对应凹槽型) -->
+                <g transform="translate(240, 140)">
+                    <!-- 拼图轮廓路径：左侧带有一个几何化的梯形凹槽，与左侧完全对应 -->
+                    <path d="M0 0 L180 0 L180 170 L0 170 L0 110 L35 110 L35 60 L0 60 Z" fill="#3B82F6"
+                        class="transition-transform duration-500 hover:-translate-x-2 cursor-pointer" />
+                    <!-- Low Poly 切面效果 - 亮部 -->
+                    <polygon points="0,0 180,0 160,20 40,20" fill="white" fill-opacity="0.15" />
+                    <polygon points="35,60 35,110 45,100 45,70" fill="white" fill-opacity="0.2" />
+                    <!-- Low Poly 切面效果 - 暗部 -->
+                    <polygon points="0,170 180,170 165,155 15,155" fill="black" fill-opacity="0.1" />
+                    <polygon points="180,0 180,170 165,150 165,20" fill="black" fill-opacity="0.1" />
+                </g>
+
+                <!-- 左侧手部 (抽象 Low Poly) -->
+                <g transform="translate(0, 200) rotate(-10)">
+                    <polygon points="0,50 80,40 100,100 20,110" fill="#FDBA74" />
+                    <polygon points="80,40 130,50 135,80 100,100" fill="#FB923C" />
+                </g>
+
+                <!-- 右侧手部 (抽象 Low Poly) -->
+                <g transform="translate(380, 190) rotate(10)">
+                    <polygon points="120,50 40,40 20,100 100,110" fill="#FDBA74" />
+                    <polygon points="40,40 -10,50 -15,80 20,100" fill="#FB923C" />
+                </g>
+            </svg>
+        </div>
+
+        <!-- 底部文字区域 -->
+        <div class="absolute bottom-16 w-full flex flex-col items-center">
+            <div class="flex items-center tracking-tighter font-black text-6xl">
+                <span class="text-slate-800 uppercase">FIT</span>
+                <span
+                    class="ml-1 text-transparent bg-clip-text bg-gradient-to-br from-blue-500 to-indigo-600 uppercase">QUIZ</span>
+            </div>
+            <!-- 进度指示器 -->
+            <div class="mt-3 flex space-x-2">
+                <div class="h-1 w-8 rounded-full bg-blue-500 transition-all duration-1000"></div>
+                <div class="h-1 w-8 rounded-full bg-slate-200 overflow-hidden opacity-70">
+                    <div class="h-full bg-blue-500" style="width: 30%;"></div>
+                </div>
+                <div class="h-1 w-8 rounded-full bg-slate-200 overflow-hidden opacity-40">
+                    <div class="h-full bg-blue-500" style="width: 30%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 角落装饰 -->
+        <div class="absolute top-12 left-12 flex space-x-2">
+            <div class="w-3 h-3 rounded-sm bg-blue-400/20 rotate-45"></div>
+            <div class="w-3 h-3 rounded-sm bg-blue-600/20 rotate-12"></div>
+        </div>
+    </div>
+
+</body>
+
+</html>
